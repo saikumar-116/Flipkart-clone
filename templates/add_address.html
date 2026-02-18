@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add Address</title>
+</head>
+
+<body>
+
+    <h2>📦 Add Delivery Address</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <input type="text" name="full_name" placeholder="Full Name" required><br><br>
+        <textarea name="address_line" placeholder="Address" required></textarea><br><br>
+        <input type="text" name="city" placeholder="City" required><br><br>
+        <input type="text" name="state" placeholder="State" required><br><br>
+        <input type="text" name="pincode" placeholder="Pincode" required><br><br>
+        <input type="text" name="phone" placeholder="Phone" required><br><br>
+
+        <button type="submit">Save Address</button>
+    </form>
+
+    <br>
+    <a href="{% url 'checkout' %}">⬅ Back to Checkout</a>
+
+</body>
+
+</html>

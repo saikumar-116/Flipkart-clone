@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Orders</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f1f3f6;
+        }
+
+        .order {
+            background: white;
+            padding: 15px;
+            margin: 15px;
+            border-radius: 5px;
+        }
+
+        .cancel {
+            background: #ff6161;
+            color: white;
+            padding: 6px 10px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2 style="padding:15px;">My Orders</h2>
+
+    {% for order in orders %}
+    <div class="order">
+        <p><strong>Order ID:</strong> {{ order.id }}</p>
+        <p><strong>Total:</strong> ₹{{ order.total_amount }}</p>
+        <p class="status">Status: {{ order.status }}</p>
+
+        {% if order.status == "PLACED" %}
+        <a class="cancel" href="{% url 'cancel_order' order.id %}">
+            Cancel Order
+        </a>
+        {% else %}
+        <p style="color:gray;">Order Cancelled</p>
+        {% endif %}
+    </div>
+    {% empty %}
+    <p>No orders found.</p>
+    {% endfor %}
+
+</body>
+
+</html>

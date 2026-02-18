@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Cart</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f3f6;
+        }
+
+        .container {
+            width: 80%;
+            margin: 30px auto;
+            display: flex;
+            gap: 20px;
+        }
+
+        /* LEFT SIDE – CART ITEMS */
+        .left {
+            width: 65%;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 20px;
+            border-bottom: 1px solid #eee;
+            padding: 20px 0;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border: 1px solid #eee;
+            padding: 5px;
+        }
+
+        .item-details {
+            flex: 1;
+        }
+
+        .item-details h4 {
+            margin: 0 0 8px;
+            font-size: 16px;
+        }
+
+        .item-details p {
+            margin: 4px 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .quantity a {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #ccc;
+            text-decoration: none;
+            color: #000;
+            font-weight: bold;
+            border-radius: 2px;
+        }
+
+        .quantity span {
+            font-size: 14px;
+        }
+
+        .remove {
+            margin-top: 10px;
+            display: inline-block;
+            color: #2874f0;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        /* RIGHT SIDE – PRICE DETAILS */
+        .right {
+            width: 35%;
+            background: #fff;
+            padding: 20px;
+            height: fit-content;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .price-title {
+            font-weight: bold;
+            color: #878787;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .total {
+            font-size: 18px;
+            font-weight: bold;
+            border-top: 1px dashed #ccc;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            background: #fb641b;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #e65c00;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- LEFT -->
+        <div class="left">
+            <h3>My Cart</h3>
+
+            {% if products %}
+            {% for p in products %}
+            <div class="cart-item">
+
+                {% if p.image %}
+                <img src="{{ p.image.url }}" alt="{{ p.name }}">
+                {% endif %}
+
+                <div class="item-details">
+                    <h4>{{ p.name }}</h4>
+                    <p>Price: ₹{{ p.price }}</p>
+                    <p><strong>Subtotal: ₹{{ p.subtotal }}</strong></p>
+
+                    <div class="quantity">
+                        <a href="{% url 'remove_from_cart' p.id %}">−</a>
+                        <span>{{ p.quantity }}</span>
+                        <a href="{% url 'add_to_cart' p.id %}">+</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="empty">
+                <h4>Your cart is empty</h4>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- RIGHT -->
+        <div class="right">
+            <div class="price-title">PRICE DETAILS</div>
+
+            <div class="price-row">
+                <span>Price ({{ products|length }} items)</span>
+                <span>₹{{ total }}</span>
+            </div>
+
+            <div class="price-row">
+                <span>Delivery Charges</span>
+                <span style="color:green;">FREE</span>
+            </div>
+
+            <div class="price-row total">
+                <span>Total Amount</span>
+                <span>₹{{ total }}</span>
+            </div>
+
+            {% if products %}
+            <a href="{% url 'checkout' %}">
+                <button class="btn">Place Order</button>
+            </a>
+            {% endif %}
+        </div>
+
+    </div>
+
+</body>
+
+</html>

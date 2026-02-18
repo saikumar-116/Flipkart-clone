@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ event.name }} Products</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f3f6;
+            padding: 30px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .product {
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .product img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .product h4 {
+            margin: 10px 0 5px;
+        }
+
+        .product p {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .product a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 6px 12px;
+            background: #2874f0;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .product a:hover {
+            background: #0b5ed7;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 25px;
+            color: #2874f0;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>🎁 {{ event.name }} Products</h2>
+
+    <div class="products">
+        {% for ep in products %}
+        <div class="product">
+
+            {% if ep.product.image %}
+            <img src="{{ ep.product.image.url }}" alt="{{ ep.product.name }}">
+            {% endif %}
+
+            <h4>{{ ep.product.name }}</h4>
+            <p>₹{{ ep.product.price }}</p>
+
+            <a href="{% url 'add_to_cart' ep.product.id %}">
+                Add to Cart
+            </a>
+        </div>
+        {% empty %}
+        <p>No products available for this event.</p>
+        {% endfor %}
+    </div>
+
+    <a class="back" href="{% url 'life_events' %}">← Back to Life Events</a>
+
+</body>
+
+</html>

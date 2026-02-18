@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Life Event Shopping</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f3f6;
+            padding: 30px;
+        }
+
+        h2 {
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        .events {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .event-card {
+            background: #ffffff;
+            padding: 25px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .event-card h3 {
+            margin-bottom: 15px;
+        }
+
+        .event-card button {
+            padding: 8px 14px;
+            background: #2874f0;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .event-card button:hover {
+            background: #0b5ed7;
+        }
+
+        .back {
+            margin-top: 30px;
+            display: inline-block;
+            color: #2874f0;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>🎉 Shop by Life Events</h2>
+    <p class="subtitle">Select an event and discover curated products</p>
+
+    <div class="events">
+        {% for event in events %}
+        <div class="event-card">
+            <h3>{{ event.name }}</h3>
+            <a href="{% url 'event_products' event.id %}">
+                <button>View Products</button>
+            </a>
+        </div>
+        {% empty %}
+        <p>No life events available.</p>
+        {% endfor %}
+    </div>
+
+    <a class="back" href="{% url 'home' %}">← Back to Home</a>
+
+</body>
+
+</html>

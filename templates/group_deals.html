@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Group Buying Deals</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f3f6;
+            padding: 30px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .deals {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .deal {
+            background: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .deal img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .deal h4 {
+            margin: 10px 0 5px;
+        }
+
+        .price {
+            color: #555;
+            text-decoration: line-through;
+        }
+
+        .group-price {
+            color: green;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .join-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 6px 12px;
+            background: #2874f0;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .join-btn:hover {
+            background: #0b5ed7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>👥 Group Buying Deals</h2>
+
+    {% if deals %}
+    <div class="deals">
+        {% for deal in deals %}
+        <div class="deal">
+
+            {% if deal.product.image %}
+            <img src="{{ deal.product.image.url }}" alt="{{ deal.product.name }}">
+            {% endif %}
+
+            <h4>{{ deal.product.name }}</h4>
+
+            <p class="price">Original Price: ₹{{ deal.product.price }}</p>
+
+            <p class="group-price">
+                Group Price: ₹{{ deal.group_price }}
+            </p>
+
+            <p>
+                Minimum Users Required: {{ deal.min_users }}
+            </p>
+
+            <a class="join-btn" href="{% url 'join_group_deal' deal.id %}">
+                Join Group
+            </a>
+
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No group deals available right now.</p>
+    {% endif %}
+
+    <br>
+    <a href="{% url 'home' %}">← Back to Home</a>
+
+</body>
+
+</html>
